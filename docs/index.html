@@ -27,6 +27,42 @@
         <i class="material-icons left large">settings</i> </button>
 </body>
 <script>
+   // ws client
+
+   var wsconnect = false;
+var ws;
+function connectws() {
+  ws = new WebSocket('ws://localhost:8081');
+  ws.onopen = function() {
+    wsconnect = true;
+    // subscribe to some channels
+    ws.send(JSON.stringify({
+        //.... some message the I must send when I connect ....
+    }));
+  };
+
+  ws.onmessage = function(e) {
+    console.log('Message:', e.data);
+  };
+
+  ws.onclose = function(e) {
+    wsconnect = false;
+    //console.log('Socket is closed. Reconnect will be attempted in 1 second.', e.reason);
+    setTimeout(function() {
+      connectws();
+    }, 1000);
+  };
+
+  ws.onerror = function(err) {
+    //console.error('Socket encountered error: ', err.message, 'Closing socket');
+    ws.close();
+  };
+}
+
+connectws();
+
+
+
     var pivot;
     var theModel;
     var renderer, scene, camera;
@@ -55,6 +91,9 @@
         pivot.quaternion.copy(new THREE.Quaternion(transformedQ.x, -transformedQ.z, transformedQ.y, transformedQ.w));
 
         renderer.render(scene, camera);
+        if(ws){
+            ws.send(JSON.stringify(transformedQ));
+        }
     }
 </script>
 <script type="module">
@@ -112,15 +151,6 @@
         grid.material.transparent = true;
         scene.add(grid);
 
-        // add ble sky gradient background
-
-
-
-
-
-
-
-
         const light = new THREE.AmbientLight(0xffffff);
         scene.add(light);
 
@@ -151,7 +181,6 @@
         console.error(error);
     });
 
-
     // UUIDs for the service and characteristic
     const serviceUuid = '6e400001-b5a3-f393-e0a9-e50e24dcca9e';
     const characteristicUuid = '6e400002-b5a3-f393-e0a9-e50e24dcca9e';
@@ -160,7 +189,6 @@
     let device_characteristics = [];
 
     // send ble message
-
     function sendBLEMessage(message, device_index) {
         const encoder = new TextEncoder();
         const data = encoder.encode(message);
