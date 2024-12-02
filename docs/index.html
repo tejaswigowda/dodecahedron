@@ -91,7 +91,7 @@ function connectws() {
         pivot.quaternion.copy(new THREE.Quaternion(transformedQ.x, -transformedQ.z, transformedQ.y, transformedQ.w));
 
         renderer.render(scene, camera);
-        $.get("http://localhost:8080/rotate?x=" + x + "&y=" + y + "&z=" + z + "&w=" + w, function (data, status) {
+        $.get("http://localhost:9980/rotate?x=" + x + "&y=" + y + "&z=" + z + "&w=" + w, function (data, status) {
             console.log(data);
         });
 
