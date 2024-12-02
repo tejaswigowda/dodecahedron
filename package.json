@@ -1,0 +1,17 @@
+{
+  "name": "dodecahedron",
+  "version": "1.0.0",
+  "description": "An easy-to-use, lightweight, open-source, open hardware web-bluetooth IMU visualizer.",
+  "main": "ws-test.js",
+  "directories": {
+    "doc": "docs"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "osc": "^2.4.5"
+  }
+}

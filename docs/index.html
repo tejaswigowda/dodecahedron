@@ -32,7 +32,7 @@
    var wsconnect = false;
 var ws;
 function connectws() {
-  ws = new WebSocket('ws://localhost:8081');
+  ws = new WebSocket('ws://localhost:5555');
   ws.onopen = function() {
     wsconnect = true;
     // subscribe to some channels
@@ -59,9 +59,7 @@ function connectws() {
   };
 }
 
-//connectws();
-
-
+connectws();
 
     var pivot;
     var theModel;
@@ -91,9 +89,13 @@ function connectws() {
         pivot.quaternion.copy(new THREE.Quaternion(transformedQ.x, -transformedQ.z, transformedQ.y, transformedQ.w));
 
         renderer.render(scene, camera);
-        $.get("http://localhost:9980/rotate?x=" + x + "&y=" + y + "&z=" + z + "&w=" + w, function (data, status) {
-            console.log(data);
-        });
+
+        ws.send(JSON.stringify({
+            x: x,
+            y: y,
+            z: z,
+            w: w
+        }));
 
       
         
