@@ -16,7 +16,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script> 
     <meta name="viewport" content="width=device-width, initial-scale=1">
 </head>
 
@@ -59,7 +59,7 @@ function connectws() {
   };
 }
 
-connectws();
+//connectws();
 
 
 
@@ -91,9 +91,12 @@ connectws();
         pivot.quaternion.copy(new THREE.Quaternion(transformedQ.x, -transformedQ.z, transformedQ.y, transformedQ.w));
 
         renderer.render(scene, camera);
-        if(ws){
-            ws.send(JSON.stringify(transformedQ));
-        }
+        $.get("http://localhost:8080/rotate?x=" + x + "&y=" + y + "&z=" + z + "&w=" + w, function (data, status) {
+            console.log(data);
+        });
+
+      
+        
     }
 </script>
 <script type="module">
