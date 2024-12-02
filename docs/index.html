@@ -90,11 +90,15 @@ connectws();
 
         renderer.render(scene, camera);
 
+        var e = new THREE.Euler().setFromQuaternion(pivot.quaternion);
         ws.send(JSON.stringify({
             x: x,
             y: y,
             z: z,
-            w: w
+            w: w,
+            pitch: e.x,
+            yaw: e.y,
+            roll: e.z
         }));
 
       
